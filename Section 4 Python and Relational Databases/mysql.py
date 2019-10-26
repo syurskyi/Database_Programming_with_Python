@@ -4,7 +4,7 @@ server = "localhost"
 database = "vc-helpdesk"
 username = "root"
 password = ""
-conn = pyodbc.connect("Login Prompt=False;DRIVER={Devart ODBC Driver for MySQL}"
+conn = pyodbc.connect("Login Prompt=False;DRIVER={MySQL ODBC 8.0 ANSI Driver}"
                       ";SERVER=" + server +
                       ";DATABASE=" + database +
                       ";UID=" + username +
