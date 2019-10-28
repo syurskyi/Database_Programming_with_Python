@@ -10,9 +10,12 @@ conn = pyodbc.connect("Login Prompt=False;DRIVER={Devart ODBC Driver for MySQL} 
 
 # Execute Select Statements
 with closing(conn.cursor()) as cursor:
-    cursor = conn.cursor()
     query = "SELECT * FROM employees WHERE employeeid = ?"
-    cursor.execute(query, (1, ))
+    cursor.execute(query, (1,))
+    employee = cursor.fetchone()
+
+    print("Name: " + employee.name)
+    print("Email: " + employee.email)
 
 if conn:
     conn.close()

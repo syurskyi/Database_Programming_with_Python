@@ -15,9 +15,12 @@ conn = pyodbc.connect("DRIVER={ODBC Driver 17 for SQL Server}"
 
 # Execute Select Statements
 with closing(conn.cursor()) as cursor:
-    cursor = conn.cursor()
     query = "SELECT * FROM employees WHERE employeeid = ?"
-    cursor.execute(query, (1, ))
+    cursor.execute(query, (1,))
+    employee = cursor.fetchone()
+
+    print("Name: " + employee.name)
+    print("Email: " + employee.email)
 
 
 # CLOSE CONNECTION
