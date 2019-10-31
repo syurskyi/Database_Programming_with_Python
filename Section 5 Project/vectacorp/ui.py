@@ -32,7 +32,8 @@ def view_tickets():
                                  ticket.solution,
                                  ticket.status))
     print("-" * 110)
-    
+
+
 def view_ticket_issue():
     ticketid = int(input("Ticket ID: "))
     print("")

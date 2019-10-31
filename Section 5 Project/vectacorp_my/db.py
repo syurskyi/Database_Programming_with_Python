@@ -8,7 +8,7 @@ conn = None
 def connect():
     global conn
     if not conn:
-        conn = sqlite3.connect("db/helpdesk.sqllite")
+        conn = sqlite3.connect("db/helpdesk.sqlite")
         conn.row_factory = sqlite3.Row
 
 
@@ -18,20 +18,18 @@ def close():
 
 
 def make_employee(row):
-    return Employee(row["ticketid"],
-                    row["customername"],
-                    row["customeremail"],
-                    row["submitteddate"],
-                    row["employee"],
-                    row["solution"],
-                    row["status"],
-                    row["issue"])
+    return Employee(row["employeeid"],
+                    row["name"],
+                    row["username"],
+                    row["password"],
+                    row["email"],
+                    row["roleid"])
 
 
 def get_employees():
     query = "SELECT * FROM employees"
     with closing(conn.cursor()) as cursor:
-        cursor.execude(query)
+        cursor.execute(query)
         results = cursor.fetchall()
 
     employees = []
@@ -43,7 +41,7 @@ def get_employees():
 def get_employee(employeeid):
     query = "SELECT *FROM employees WHERE employeeid=?"
     with closing(conn.cursor()) as cursor:
-        cursor.execude(query, (employeeid,))
+        cursor.execute(query, (employeeid,))
         results = cursor.fetchone()
 
     employee = make_employee(results)
@@ -53,13 +51,13 @@ def get_employee(employeeid):
 def add_employee(employee):
     sql = "INSERT INTO employees (name, username, password, email, roleid) VALUES (?, ?, ?, ?, ?)"
     with closing(conn.cursor()) as cursor:
-        cursor.execude(sql, (employee.name, employee.username, employee.password, employee.email, employee.roleid))
+        cursor.execute(sql, (employee.name, employee.username, employee.password, employee.email, employee.roleid))
         conn.commit()
 
 
 def delete_employee(employeeid):
-    sql = "DELETE * FROM employees WHERE employeeid=?"
+    sql = "DELETE FROM employees WHERE employeeid=?"
     with closing(conn.cursor()) as cursor:
-        cursor.execude(sql, (employeeid,))
+        cursor.execute(sql, (employeeid,))
         conn.commit()
 
