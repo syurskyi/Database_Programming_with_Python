@@ -1,5 +1,6 @@
 import sqlite3
 from contextlib import closing
+from objects import Employee
 
 conn = None
 
@@ -16,6 +17,17 @@ def close():
         conn.close
 
 
+def make_employee(row):
+    return Employee(row["ticketid"],
+                    row["customername"],
+                    row["customeremail"],
+                    row["submitteddate"],
+                    row["employee"],
+                    row["solution"],
+                    row["status"],
+                    row["issue"])
+
+
 def get_employees():
     query = "SELECT * FROM employees"
     with closing(conn.cursor()) as cursor:
@@ -24,7 +36,7 @@ def get_employees():
 
     employees = []
     for row in results:
-        employees.append(row)
+        employees.append(make_employee(row))
     return employees
 
 
@@ -34,7 +46,7 @@ def get_employee(employeeid):
         cursor.execude(query, (employeeid,))
         results = cursor.fetchone()
 
-    employee = results
+    employee = make_employee(results)
     return employee
 
 
@@ -43,6 +55,7 @@ def add_employee(employee):
     with closing(conn.cursor()) as cursor:
         cursor.execude(sql, (employee.name, employee.username, employee.password, employee.email, employee.roleid))
         conn.commit()
+
 
 def delete_employee(employeeid):
     sql = "DELETE * FROM employees WHERE employeeid=?"
