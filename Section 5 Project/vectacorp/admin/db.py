@@ -1,6 +1,6 @@
 import sqlite3
 from contextlib import closing
-from objects import Employee
+from admin.objects import Employee
 
 conn = None
 

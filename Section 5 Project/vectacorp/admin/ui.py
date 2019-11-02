@@ -1,5 +1,5 @@
-import db
-from objects import Employee
+from admin import db
+from admin.objects import Employee
 
 def display_menu():
     print("")
