@@ -8,21 +8,21 @@ def display_menu():
     print("Welcome to the Vecta Corp Help Desk Application (User)")
     print("")
     print("COMMAND MENU")
-    print("-" * 85)
+    print("-" * 95)
     print("view - View all employees")
     print("add - Add a employee")
     print("del - Remove an employee")
     print("exit - Exit the program")
-    print("-" * 85)
+    print("-" * 95)
 
 
 def view_employees():
     print("-")
-    print("VECTA CORP HELP DESK (CURRENT OPEN TICKETS)")
-    print("-" * 85)
+    print("VECTA CORP HELP DESK EMPLOYEES")
+    print("-" * 95)
     line_format = "{:5s} {:15s} {:15s} {:15s} {:25s} {:5s}"
     print(line_format.format("ID", "Name", "Username", "Password", "Email", "Role"))
-    print("-" * 85)
+    print("-" * 95)
     employees = db.get_employees()
     for employee in employees:
         print(line_format.format(str(employee.employeeid),
@@ -30,8 +30,8 @@ def view_employees():
                                  employee.username,
                                  str(employee.password),
                                  employee.email,
-                                 str(employee.roleid)))
-    print("-" * 85)
+                                 employee.role))
+    print("-" * 95)
 
 
 def add_employee():
@@ -39,7 +39,7 @@ def add_employee():
     username = input("Username: ")
     password = input("Password: ")
     email = input("Email")
-    roleid = int(input("Role ID: "))
+    roleid = int(input("Role ID (1=Suppprt, 2=Developer, 3=Administration, 4=Admin: "))
 
     employee = Employee(name=name,
                         username=username,
@@ -65,6 +65,17 @@ def delete_employee():
 
 def main():
     db.connect()
+
+    # while True:
+    #     print("VECTA CORP HELP DESK ADMIN LOG IN")
+    #     print("-" * 110)
+    #     username = input("Username: ")
+    #     password = input("Password: ")
+    #     if db.login(username, password, 4):
+    #         break
+    #     else:
+    #         print("\nYour credentials are invalid. Please try again.\n")
+
     display_menu()
 
     while True:

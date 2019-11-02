@@ -23,11 +23,13 @@ def make_employee(row):
                     row["username"],
                     row["password"],
                     row["email"],
-                    row["roleid"])
+                    row["roleid"],
+                    row["role"])
 
 
 def get_employees():
-    query = "SELECT * FROM employees"
+    # query = "SELECT * FROM employees"
+    query = "SELECT employees.*, roles.role FROM employees INNER JOIN roles ON roles.roleid=employees.roleid"
     with closing(conn.cursor()) as cursor:
         cursor.execute(query)
         results = cursor.fetchall()
@@ -39,7 +41,7 @@ def get_employees():
 
 
 def get_employee(employeeid):
-    query = "SELECT *FROM employees WHERE employeeid=?"
+    query = "SELECT employees.*, roles.role FROM employees INNER JOIN roles ON roles.roleid=employees.roleid WHERE employeeid=?"
     with closing(conn.cursor()) as cursor:
         cursor.execute(query, (employeeid,))
         results = cursor.fetchone()
@@ -60,4 +62,16 @@ def delete_employee(employeeid):
     with closing(conn.cursor()) as cursor:
         cursor.execute(sql, (employeeid,))
         conn.commit()
+
+
+def login(username, password, roleid):
+    query = "SELECT COUNT(*) FROM employees WHERE username=? AND password=? AND roleid=?"
+    with closing(conn.cursor()) as cursor:
+        cursor.execute(query, (username, password, roleid))
+        results = cursor.fetchone()
+
+    if results[0] > 0:
+        return True
+    else:
+        return False
 
