@@ -8,13 +8,13 @@ conn = None
 def connect():
     global conn
     if not conn:
-        conn = sqlite3.connect("db/helpdesk.sqlite")
+        conn = sqlite3.connect("../db/helpdesk.sqlite")
         conn.row_factory = sqlite3.Row
 
 
 def close():
     if conn:
-        conn.close
+        conn.close()
 
 
 def make_employee(row):
@@ -28,7 +28,6 @@ def make_employee(row):
 
 
 def get_employees():
-    # query = "SELECT * FROM employees"
     query = "SELECT employees.*, roles.role FROM employees INNER JOIN roles ON roles.roleid=employees.roleid"
     with closing(conn.cursor()) as cursor:
         cursor.execute(query)
@@ -68,10 +67,9 @@ def login(username, password, roleid):
     query = "SELECT COUNT(*) FROM employees WHERE username=? AND password=? AND roleid=?"
     with closing(conn.cursor()) as cursor:
         cursor.execute(query, (username, password, roleid))
-        results = cursor.fetchone()
+        result = cursor.fetchone()
 
-    if results[0] > 0:
+    if result[0] > 0:
         return True
     else:
         return False
-

@@ -4,19 +4,19 @@ from admin.objects import Employee
 
 def display_menu():
     print("")
-    print("Welcome to the Vecta Corp Help Desk Application (User)")
+    print("Welcome to the Vecta Corp Help Desk Application (Admin)")
     print("")
     print("COMMAND MENU")
     print("-" * 95)
     print("view - View all employees")
-    print("add - Add a employee")
+    print("add - Add an employee")
     print("del - Remove an employee")
     print("exit - Exit the program")
     print("-" * 95)
 
 
 def view_employees():
-    print("-")
+    print("")
     print("VECTA CORP HELP DESK EMPLOYEES")
     print("-" * 95)
     line_format = "{:5s} {:15s} {:15s} {:15s} {:25s} {:5s}"
@@ -24,12 +24,8 @@ def view_employees():
     print("-" * 95)
     employees = db.get_employees()
     for employee in employees:
-        print(line_format.format(str(employee.employeeid),
-                                 employee.name,
-                                 employee.username,
-                                 str(employee.password),
-                                 employee.email,
-                                 employee.role))
+        print(line_format.format(str(employee.employeeid), employee.name, employee.username, employee.password,
+                                 employee.email, employee.role))
     print("-" * 95)
 
 
@@ -37,43 +33,37 @@ def add_employee():
     name = input("Name: ")
     username = input("Username: ")
     password = input("Password: ")
-    email = input("Email")
-    roleid = int(input("Role ID (1=Suppprt, 2=Developer, 3=Administration, 4=Admin: "))
+    email = input("Email: ")
+    roleid = int(input("Role ID (1=Support, 2=Developer, 3=Administration, 4=Admin): "))
 
-    employee = Employee(name=name,
-                        username=username,
-                        password=password,
-                        email=email,
-                        roleid=roleid)
-
+    employee = Employee(name=name, username=username, password=password, email=email, roleid=roleid)
     db.add_employee(employee)
-    print("")
-    print(name + " was added to the database successfully.\n")
+    print(name + " was added to the database successfully!\n")
 
 
 def delete_employee():
     employeeid = int(input("Employee ID: "))
     employee = db.get_employee(employeeid)
-    choice = input("Are you sure you want to delete '" + employee.name + "' ? (y/n): ")
+    choice = input("Are you sure you want to delete '" + employee.name + "'? (y/n): ")
     if (choice == "y"):
         db.delete_employee(employeeid)
         print("'" + employee.name + "' was deleted successfully.\n")
     else:
-        print("'" + employee.name + "' was NOT delete \n")
+        print("'" + employee.name + "' was NOT deleteddelve.\n")
 
 
 def main():
     db.connect()
 
-    # while True:
-    #     print("VECTA CORP HELP DESK ADMIN LOG IN")
-    #     print("-" * 110)
-    #     username = input("Username: ")
-    #     password = input("Password: ")
-    #     if db.login(username, password, 4):
-    #         break
-    #     else:
-    #         print("\nYour credentials are invalid. Please try again.\n")
+    while True:
+        print("VECTA CORP HELP DESK ADMIN LOG IN")
+        print("-" * 95)
+        username = input("Username: ")
+        password = input("Password: ")
+        if db.login(username, password, 4):
+            break
+        else:
+            print("\nYour credentials are invalid. Please try again.\n")
 
     display_menu()
 
@@ -88,12 +78,11 @@ def main():
         elif command == "exit":
             break
         else:
-            print("Not a valid command. Please try again.")
-
+            print("Not a valid command. Please try again.\n")
             display_menu()
 
     db.close()
-    print("The program has been terminated.")
+    print("The program has been terminated!")
 
 
 if __name__ == "__main__":
